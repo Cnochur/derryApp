@@ -3,7 +3,7 @@
 YerLocal (*pronounced "Your Local"*), is a web application designed to give visitors to Derry/Londonderry a *“local in their pocket”*.
 The app focuses on helping visitors understand the city as a local would: where to walk, what they are seeing, how to get around, and where to eat or relax.
 
-This project is being developed as a personal project and follows an MVP-first approach, with features added incrementally.
+This is being developed as a personal project and follows an MVP-first approach, with features added incrementally.
 
 ---
 
