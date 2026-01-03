@@ -32,27 +32,12 @@
 
     </div>
     <hr>
-    <div id="nextBus" style="text-align: center;">
-        <div id="resultsBox">
-            <h2>Next Bus</h2>
-            <h3>Bus Service Number</h3>
-            <h2>Time due</h2>
-        </div>
-        <div id="scheduledBuses">
-            <ol style="list-style: none">
-                <li>Next bus 1</li>
-                <li>Next bus 2</li>
-                <li>Next bus 3</li>
-            </ol>
-        </div>
-    </div>
 <script>
   // Create a JS array of stops
   const stops = [
     {% for stop in stops %}
       {
         name: "{{ stop.name|escapejs }}",
-        description: "{{ stop.description|escapejs }}",
         latitude: {{ stop.latitude }},
         longitude: {{ stop.longitude }}
       }{% if not forloop.last %},{% endif %}

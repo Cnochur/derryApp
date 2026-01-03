@@ -12,14 +12,6 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 stops.forEach(stop => {
     const marker = L.marker([stop.latitude, stop.longitude]).addTo(map);
     marker.bindPopup(`
-        <b>${stop.position}. ${stop.name}</b><br>
-        ${stop.description}
+        <b>${stop.name}</b>
     `, { maxWidth:250 });
 });
-
-const polyline = L.polyline(wallPath, {
-    color: 'red',       // line color
-    weight: 4,          // thickness
-    opacity: 0.7,       // semi-transparent
-    smoothFactor: 1     // makes the line look smooth
-}).addTo(map);
