@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bus Checker</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="{% static 'buschecker/css/buschecker.css' %}">
 </head>
 <body>
     <div id="searchOptions" style="text-align: center;">
@@ -25,6 +28,10 @@
         </form>
     </div>
     <hr>
+    <div id="map" style="height: 500px;">
+
+    </div>
+    <hr>
     <div id="nextBus" style="text-align: center;">
         <div id="resultsBox">
             <h2>Next Bus</h2>
@@ -39,5 +46,21 @@
             </ol>
         </div>
     </div>
+<script>
+  // Create a JS array of stops
+  const stops = [
+    {% for stop in stops %}
+      {
+        name: "{{ stop.name|escapejs }}",
+        description: "{{ stop.description|escapejs }}",
+        latitude: {{ stop.latitude }},
+        longitude: {{ stop.longitude }}
+      }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ];
+  console.log(stops);
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="{% static 'buschecker/js/buschecker_map.js' %}"></script>
 </body>
 </html>
