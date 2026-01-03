@@ -23,7 +23,7 @@ class Route(models.Model):
 class ScheduledStopTimes(models.Model):
     route = models.ForeignKey(Route, on_delete=models.CASCADE)
     stop = models.ForeignKey(BusStop, on_delete=models.CASCADE)
-    arrival_time = models.DateTimeField()
+    arrival_time = models.TimeField()
     direction = models.CharField(max_length=10, choices=[('to_city', 'To City'), ('from_city', 'From City')])
 
     class Meta:
