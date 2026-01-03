@@ -6,38 +6,23 @@
     <title>Bus Checker</title>
 </head>
 <body>
-    <h1>Bus Checker</h1>
-    <!--
-    1. to city or from
-    2. Enter area
-    3. Dropdown of possible stops
-    4. search button
-    5. Next bus due display
-    ** Add refresh button? **
-    6. Display next 3 buses due after current displayed
-    -->
     <div id="searchOptions" style="text-align: center;">
-        <div id="toFromSelection">
-            <input type="radio" id="toCity" name="directionChoice" value="To City">
-            <label for="toCity">To City</label>
-            <input type="radio" id="fromCity" name="directionChoice" value="From City">
-            <label for="fromCity">From City</label>
-        </div>
-        <div id="areaInput">
-            <label for="areaChoice">Enter area/destination</label>
-            <input type="text" id="areaChoice" name="areaChoice" placeholder="eg. Eglington, Culmore">
-        </div>
-        <div id="stopOptions">
-            <label for="stopsAvailable">Select a stop:</label>
-            <select name="stopsAvailable" id="stopsAvailable">
-                <option>Option 1</option>
-                <option>Option 2</option>
-                <option>Option 3</option>
-            </select>
-        </div>
-        <div>
-            <button>Search</button>
-        </div>
+        <form method="post">
+            {% csrf_token %}
+            <div id="toFromSelection">
+                <input type="radio" id="toCity" name="directionChoice" value="to_city">
+                <label for="toCity">To City</label>
+                <input type="radio" id="fromCity" name="directionChoice" value="from_city">
+                <label for="fromCity">From City</label>
+            </div>
+            <div id="areaInput">
+                <label for="areaChoice">Enter area/destination</label>
+                <input type="text" id="areaChoice" name="areaChoice" placeholder="eg. Eglinton, Culmore">
+            </div>
+            <div>
+                <button type="submit">Search</button>
+            </div>
+        </form>
     </div>
     <hr>
     <div id="nextBus" style="text-align: center;">
