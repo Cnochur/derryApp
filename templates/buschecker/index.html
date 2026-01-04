@@ -28,9 +28,13 @@
         </form>
     </div>
     <hr>
-    <div id="map" style="height: 500px;">
+    {% if stops %}
+        <div id="map" style="height: 500px;">
 
-    </div>
+        </div>
+    {% else %}
+        <p>No stops to display</p>
+    {% endif %}
     <hr>
 <script>
   // Create a JS array of stops
