@@ -52,6 +52,26 @@
     {% endfor %}
   ];
   console.log(stops);
+
+  function renderBusTimes(times) {
+    const resultsDiv = document.getElementById("bus-results");
+    resultsDiv.innerHTML = "";
+
+    if (!times || times.length === 0) {
+        resultsDiv.innerHTML = "<p>No scheduled buses.</p>";
+        return;
+    }
+
+    const ul = document.createElement("ul");
+    times.forEach(bus => {
+        const li = document.createElement("li");
+        li.textContent = `${bus.service} – Due at ${bus.time}`;
+        ul.appendChild(li);
+    });
+
+    resultsDiv.appendChild(ul);
+}
+
 </script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="{% static 'buschecker/js/buschecker_map.js' %}"></script>

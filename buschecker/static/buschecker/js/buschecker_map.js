@@ -9,6 +9,7 @@ let selectedStopId = null;
 function selectStop(stopId) {
     selectedStopId = stopId;
     console.log("Selected stop ID:", stopId);
+    fetchBusTimes(stopId);
 }
 
 function renderStopsOnMap(stops) {
@@ -29,15 +30,31 @@ function renderStopsOnMap(stops) {
 
 renderStopsOnMap(stops)
 
-document.getElementById("searchStops").addEventListener("click", () => {
-    const area = document.getElementById("area").value;
-    const direction = document.getElementById("direction").value;
+document.addEventListener("DOMContentLoaded", () => {
+    const searchBtn = document.getElementById("searchStops");
+    if (searchBtn) {
+        searchBtn.addEventListener("click", () => {
+            const area = document.getElementById("area").value;
+            const direction = document.getElementById("direction").value;
 
-    fetch(`/buschecker/stops/?area=${area}&direction=${direction}`)
-        .then(response => response.json())
-        .then(stops => {
-            const sortedStops = stops.sort((a, b) => a.position - b.position);
-            renderStopsOnMap(sortedStops);
-        })
-        .catch(error => console.error("Error fetching stops:", error));
+            fetch(`/buschecker/stops/?area=${area}&direction=${direction}`)
+                .then(response => response.json())
+                .then(stops => {
+                    const sortedStops = stops.sort((a, b) => a.position - b.position);
+                    renderStopsOnMap(sortedStops);
+                })
+                .catch(error => console.error("Error fetching stops:", error));
+        });
+    }
 });
+
+function fetchBusTimes(stopId) {
+    fetch(`/buschecker/times/?stop_id=${stopId}`)
+        .then(response => response.json())
+        .then(times => renderBusTimes(times))
+        .catch(error => {
+            console.error("Error fetching bus times:", error);
+            document.getElementById("bus-results").innerHTML =
+                "<p>Error loading bus times.</p>";
+        });
+}
