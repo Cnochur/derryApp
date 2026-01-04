@@ -36,11 +36,15 @@
         <p style="text-align: center;">No stops to display</p>
     {% endif %}
     <hr>
+    <div id="bus-results">
+
+    </div>
 <script>
   // Create a JS array of stops
   const stops = [
     {% for stop in stops %}
       {
+        id: {{ stop.id }},
         name: "{{ stop.name|escapejs }}",
         latitude: {{ stop.latitude }},
         longitude: {{ stop.longitude }}

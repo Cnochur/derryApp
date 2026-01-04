@@ -4,9 +4,7 @@ from datetime import datetime
 
 def getPossibleStops(directionChoice: str, areaChoice: str):
 
-    times = ScheduledStopTimes.objects.filter(direction=directionChoice)
-    stops = BusStop.objects.filter(scheduledstoptimes__in=times, area=areaChoice)
-
+    stops = BusStop.objects.filter(scheduledstoptimes__direction=directionChoice, area__icontains=areaChoice).distinct()
     return stops
 
 
