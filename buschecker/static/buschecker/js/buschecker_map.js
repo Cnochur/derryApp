@@ -12,6 +12,9 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 stops.forEach(stop => {
     const marker = L.marker([stop.latitude, stop.longitude]).addTo(map);
     marker.bindPopup(`
-        <b>${stop.name}</b>
+        <div>
+            <b>${stop.name}</b><br>
+            <button type="button">Choose</button>
+        </div>
     `, { maxWidth:250 });
 });
