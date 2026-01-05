@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Bus Checker{% endblock %}
+{% block title %}Bus Checker – YerLocal{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -9,45 +9,58 @@
 {% endblock %}
 
 {% block content %}
-<div id="searchOptions" class="text-center">
-    <form method="post">
-        {% csrf_token %}
+<div class="container py-4">
 
-        <div id="toFromSelection">
-            <input type="radio" id="toCity" name="directionChoice" value="to_city">
-            <label for="toCity">To City</label>
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="card-title mb-3">Find your bus</h5>
 
-            <input type="radio" id="fromCity" name="directionChoice" value="from_city">
-            <label for="fromCity">From City</label>
+            <form method="post" class="row gy-3">
+                {% csrf_token %}
+
+                <div class="col-12">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio"
+                               name="directionChoice" id="toCity" value="to_city">
+                        <label class="form-check-label" for="toCity">To City</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio"
+                               name="directionChoice" id="fromCity" value="from_city">
+                        <label class="form-check-label" for="fromCity">From City</label>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="areaChoice"
+                        placeholder="Enter area or destination"
+                    >
+                </div>
+
+                <div class="col-md-4 d-grid">
+                    <button type="submit" class="btn btn-primary">
+                        Search Stops
+                    </button>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div id="areaInput">
-            <label for="areaChoice">Enter area/destination</label>
-            <input
-                type="text"
-                id="areaChoice"
-                name="areaChoice"
-                placeholder="eg. Eglinton, Culmore"
-            >
+    {% if stops %}
+        <div class="card shadow-sm mb-4">
+            <div class="card-body p-0">
+                <div id="map" style="height: 400px;"></div>
+            </div>
         </div>
+    {% endif %}
 
-        <div>
-            <button type="submit">Search</button>
-        </div>
-    </form>
+    <div id="bus-results" class="mt-3"></div>
+
 </div>
-
-<hr>
-
-{% if stops %}
-    <div id="map" style="height: 500px;"></div>
-{% else %}
-    <p class="text-center">No stops to display</p>
-{% endif %}
-
-<hr>
-
-<div id="bus-results"></div>
 
 <script>
     const stops = [
@@ -62,22 +75,26 @@
     ];
 
     function renderBusTimes(times) {
-        const resultsDiv = document.getElementById("bus-results");
-        resultsDiv.innerHTML = "";
+        const results = document.getElementById("bus-results");
+        results.innerHTML = "";
 
         if (!times || times.length === 0) {
-            resultsDiv.innerHTML = "<p>No scheduled buses.</p>";
+            results.innerHTML =
+                `<div class="alert alert-info">No scheduled buses.</div>`;
             return;
         }
 
-        const ul = document.createElement("ul");
+        const list = document.createElement("ul");
+        list.className = "list-group";
+
         times.forEach(bus => {
-            const li = document.createElement("li");
-            li.textContent = `${bus.service} – Due at ${bus.time}`;
-            ul.appendChild(li);
+            const item = document.createElement("li");
+            item.className = "list-group-item";
+            item.textContent = `${bus.service} – Due at ${bus.time}`;
+            list.appendChild(item);
         });
 
-        resultsDiv.appendChild(ul);
+        results.appendChild(list);
     }
 </script>
 {% endblock %}

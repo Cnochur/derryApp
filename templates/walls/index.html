@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Walk The Walls{% endblock %}
+{% block title %}Walk the Walls – YerLocal{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -9,7 +9,11 @@
 {% endblock %}
 
 {% block content %}
-<div id="map" style="height: 90vh; width: 100%; background: darkgreen;"></div>
+<div class="row g-0">
+    <div class="col-12">
+        <div id="map" style="height: 90vh;"></div>
+    </div>
+</div>
 
 <script>
     const stops = [
