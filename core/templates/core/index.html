@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}YerLocal – Derry Visitor Guide{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">YerLocal</h1>
+        <p class="text-muted">
+            A local guide to Derry, built for visitors who want to explore like locals.
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Walk the Walls</h5>
+                    <p class="card-text">
+                        A self-guided walking tour of Derry’s historic city walls,
+                        with points of interest and local history.
+                    </p>
+                    <a href="{% url 'walls:home' %}" class="btn btn-primary">
+                        Explore the Walls
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Bus Checker</h5>
+                    <p class="card-text">
+                        Find the next bus to or from the city based on where you’re staying,
+                        without digging through timetables.
+                    </p>
+                    <a href="{% url 'buschecker:home' %}" class="btn btn-primary">
+                        Check Buses
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
