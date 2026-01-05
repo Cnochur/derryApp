@@ -1,34 +1,32 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Walk The Walls</title>
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-    <link rel="stylesheet" href="{% static 'walls/css/walls.css' %}">
-</head>
-<body>
-<div id="map" style="height: 90vh; width: 100%; background: darkgreen;">
+{% block title %}Walk The Walls{% endblock %}
 
-</div>
+{% block extra_css %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="{% static 'walls/css/walls.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="map" style="height: 90vh; width: 100%; background: darkgreen;"></div>
 
 <script>
-  // Create a JS array of stops
-  const stops = [
-    {% for stop in stops %}
-      {
-        name: "{{ stop.name|escapejs }}",
-        position: {{ stop.tourPosition }},
-        description: "{{ stop.description|escapejs }}",
-        latitude: {{ stop.latitude }},
-        longitude: {{ stop.longitude }}
-      }{% if not forloop.last %},{% endif %}
-    {% endfor %}
-  ];
-  console.log(stops)
+    const stops = [
+        {% for stop in stops %}
+        {
+            name: "{{ stop.name|escapejs }}",
+            position: {{ stop.tourPosition }},
+            description: "{{ stop.description|escapejs }}",
+            latitude: {{ stop.latitude }},
+            longitude: {{ stop.longitude }}
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
 </script>
+{% endblock %}
+
+{% block extra_js %}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="{% static 'walls/js/walls_map.js' %}"></script>
-</body>
-</html>
+{% endblock %}
