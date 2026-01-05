@@ -1,79 +1,88 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bus Checker</title>
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-    <link rel="stylesheet" href="{% static 'buschecker/css/buschecker.css' %}">
-</head>
-<body>
-    <div id="searchOptions" style="text-align: center;">
-        <form method="post">
-            {% csrf_token %}
-            <div id="toFromSelection">
-                <input type="radio" id="toCity" name="directionChoice" value="to_city">
-                <label for="toCity">To City</label>
-                <input type="radio" id="fromCity" name="directionChoice" value="from_city">
-                <label for="fromCity">From City</label>
-            </div>
-            <div id="areaInput">
-                <label for="areaChoice">Enter area/destination</label>
-                <input type="text" id="areaChoice" name="areaChoice" placeholder="eg. Eglinton, Culmore">
-            </div>
-            <div>
-                <button type="submit">Search</button>
-            </div>
-        </form>
-    </div>
-    <hr>
-    {% if stops %}
-        <div id="map" style="height: 500px;">
+{% block title %}Bus Checker{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="{% static 'buschecker/css/buschecker.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="searchOptions" class="text-center">
+    <form method="post">
+        {% csrf_token %}
+
+        <div id="toFromSelection">
+            <input type="radio" id="toCity" name="directionChoice" value="to_city">
+            <label for="toCity">To City</label>
+
+            <input type="radio" id="fromCity" name="directionChoice" value="from_city">
+            <label for="fromCity">From City</label>
         </div>
-    {% else %}
-        <p style="text-align: center;">No stops to display</p>
-    {% endif %}
-    <hr>
-    <div id="bus-results">
 
-    </div>
+        <div id="areaInput">
+            <label for="areaChoice">Enter area/destination</label>
+            <input
+                type="text"
+                id="areaChoice"
+                name="areaChoice"
+                placeholder="eg. Eglinton, Culmore"
+            >
+        </div>
+
+        <div>
+            <button type="submit">Search</button>
+        </div>
+    </form>
+</div>
+
+<hr>
+
+{% if stops %}
+    <div id="map" style="height: 500px;"></div>
+{% else %}
+    <p class="text-center">No stops to display</p>
+{% endif %}
+
+<hr>
+
+<div id="bus-results"></div>
+
 <script>
-  // Create a JS array of stops
-  const stops = [
-    {% for stop in stops %}
-      {
-        id: {{ stop.id }},
-        name: "{{ stop.name|escapejs }}",
-        latitude: {{ stop.latitude }},
-        longitude: {{ stop.longitude }}
-      }{% if not forloop.last %},{% endif %}
-    {% endfor %}
-  ];
-  console.log(stops);
+    const stops = [
+        {% for stop in stops %}
+        {
+            id: {{ stop.id }},
+            name: "{{ stop.name|escapejs }}",
+            latitude: {{ stop.latitude }},
+            longitude: {{ stop.longitude }}
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
 
-  function renderBusTimes(times) {
-    const resultsDiv = document.getElementById("bus-results");
-    resultsDiv.innerHTML = "";
+    function renderBusTimes(times) {
+        const resultsDiv = document.getElementById("bus-results");
+        resultsDiv.innerHTML = "";
 
-    if (!times || times.length === 0) {
-        resultsDiv.innerHTML = "<p>No scheduled buses.</p>";
-        return;
+        if (!times || times.length === 0) {
+            resultsDiv.innerHTML = "<p>No scheduled buses.</p>";
+            return;
+        }
+
+        const ul = document.createElement("ul");
+        times.forEach(bus => {
+            const li = document.createElement("li");
+            li.textContent = `${bus.service} – Due at ${bus.time}`;
+            ul.appendChild(li);
+        });
+
+        resultsDiv.appendChild(ul);
     }
-
-    const ul = document.createElement("ul");
-    times.forEach(bus => {
-        const li = document.createElement("li");
-        li.textContent = `${bus.service} – Due at ${bus.time}`;
-        ul.appendChild(li);
-    });
-
-    resultsDiv.appendChild(ul);
-}
-
 </script>
+{% endblock %}
+
+{% block extra_js %}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="{% static 'buschecker/js/buschecker_map.js' %}"></script>
-</body>
-</html>
+{% endblock %}
